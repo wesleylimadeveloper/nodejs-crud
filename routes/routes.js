@@ -10,11 +10,11 @@ router.get('/', (req, res) => {
 router.get('/pessoas', (req, res) => {
     const sql = 'SELECT * from tbl_pessoa'
 
-    connection.query(sql, (error, rows, fields) => {
+    connection.query(sql, (error, results, fields) => {
         if (!error) {
-            return res.send(rows)
+            return res.send(results)
         } else {
-            return res.send('Erro ao tentar listar os dados')
+            return res.send('Erro ao listar dados.')
         }
     })
 })
@@ -23,15 +23,15 @@ router.get('/pessoas/:id', (req, res) => {
     const { id } = req.params
     const sql = 'SELECT * from tbl_pessoa WHERE cod_pessoa = ?'
 
-    connection.query(sql, [id], (error, rows, fields) => {
+    connection.query(sql, [id], (error, results, fields) => {
         if (!error) {
-            if (rows != '') {
-                return res.send(rows)
+            if (results != '') {
+                return res.send(results)
             } else {
                 return res.send(`Pessoa ${id} não encontrada.`)
             }
         } else {
-            return res.send('Erro ao tentar listar os dados ' + error)
+            return res.send('Erro ao listar dados.')
         }
     })
 })
@@ -49,11 +49,11 @@ router.post('/pessoas', (req, res) => {
     const { nome, sobrenome, email, celular } = req.body
     const sql = 'INSERT INTO tbl_pessoa(nome, sobrenome, email, celular) VALUES(?, ?, ?, ?)'
 
-    connection.query(sql, [nome, sobrenome, email, celular], (error, rows, fields) => {
+    connection.query(sql, [nome, sobrenome, email, celular], (error, results, fields) => {
         if (!error) {
-            return res.send('Cadastrado com sucesso!')
+            return res.send('Dados cadastrados com sucesso!')
         } else {
-            return res.send('Erro ao cadastrar!')
+            return res.send('Erro ao cadastrar os dados.')
         }
     })
 })
@@ -63,11 +63,11 @@ router.put('/pessoas/:id', (req, res) => {
     const { nome, sobrenome, email, celular } = req.body
     const sql = `UPDATE tbl_pessoa SET nome = ?, sobrenome = ?, email = ?, celular = ? WHERE cod_pessoa = ${id}`
 
-    connection.query(sql, [nome, sobrenome, email, celular], (error, rows, fields) => {
+    connection.query(sql, [nome, sobrenome, email, celular], (error, results, fields) => {
         if (!error) {
-            return res.send('Atualizado com sucesso!')
+            return res.send('Dados alterados com sucesso!')
         } else {
-            return res.send('Erro ao atualizar!')
+            return res.send('Erro ao alterar os dados.')
         }
     })
 })
@@ -76,11 +76,11 @@ router.delete('/pessoas/:id', (req, res) => {
     const { id } = req.params
     const sql = 'DELETE from tbl_pessoa WHERE cod_pessoa = ?'
 
-    connection.query(sql, [id], (error, rows, fields) => {
+    connection.query(sql, [id], (error, results, fields) => {
         if (!error) {
-            return res.send('Excluido com sucesso!')
+            return res.send('Dados excluidos com sucesso!')
         } else {
-            return res.send('Erro ao excluir!')
+            return res.send('Erro ao excluir os dados.')
         }
     })
 })
